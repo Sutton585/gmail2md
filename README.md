@@ -21,7 +21,15 @@ In its MVP state, this module is optimized to handle **Job Alert Emails** (Linke
 
 ---
 
-## 2. Implementation: The 5 Buckets
+## 2. Key Dependencies
+
+- **imaplib & email (Standard Library):** Used for connecting to Gmail via the IMAP protocol and parsing raw MIME email content. This was chosen to maintain zero-dependency reliability for the core connection.
+- **Google Client Library (Optional):** Supports the official Gmail API for high-volume users who require OAuth-based authentication.
+- **BeautifulSoup (bs4):** Used by the Processor to parse HTML email bodies and extract embedded job board URLs.
+
+---
+
+## 3. Implementation: The 5 Buckets
 
 Following the Sandman Blueprint, the internal architecture is divided into:
 
