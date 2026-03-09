@@ -1,6 +1,6 @@
-# Gmail2Markdown: Email Knowledge Accumulator
+# gmail2md: Email Knowledge Accumulator
 
-Gmail2Markdown is a specialized Sandman module designed to transform your inbox into a structured, chronological knowledge base. It targets specific Gmail labels, extracts high-signal content, and generates Markdown notes optimized for Obsidian vaults and AI-driven RAG (Retrieval-Augmented Generation) pipelines.
+gmail2md is a specialized Sandman module designed to transform your inbox into a structured, chronological knowledge base. It targets specific Gmail labels, extracts high-signal content, and generates Markdown notes optimized for Obsidian vaults and AI-driven RAG (Retrieval-Augmented Generation) pipelines.
 
 This module is part of the **Sandman Suite** and adheres strictly to the [Unified Module Blueprint](../unified_module_blueprint.md).
 
@@ -8,14 +8,14 @@ This module is part of the **Sandman Suite** and adheres strictly to the [Unifie
 
 ## 1. Core Mission & Use Case
 
-Unlike traditional email archiving, Gmail2Markdown is built for **active knowledge management**. Its primary mission is to:
+Unlike traditional email archiving, gmail2md is built for **active knowledge management**. Its primary mission is to:
 - **Target Signal:** Monitor specific labels (e.g., `Alerts/Jobs`, `Newsletters`, `Research`) rather than the whole inbox.
 - **Extract Links & Entities:** Automatically identify and queue external URLs (like Job Postings) for secondary scraping modules.
 - **Maintain Chronology:** Append new replies or updates to existing notes, preserving the full context of a thread.
 
 ### The Job Alert Pipeline (MVP Goal)
 In its MVP state, this module is optimized to handle **Job Alert Emails** (LinkedIn, Indeed, etc.).
-1. **Gmail2Markdown** scrapes the alert email.
+1. **gmail2md** scrapes the alert email.
 2. It identifies the "Job Alert" label and triggers the `Processor` to extract job titles and URLs.
 3. It creates an abbreviated "Job Page" for each link, establishing a relational link between the **Source Email** and the **Target Job**.
 
@@ -68,7 +68,7 @@ Following the Sandman Blueprint, the internal architecture is divided into:
 - **Recommendation:** Use **Trafilatura** or **Crawl4AI**.
     - **Trafilatura** is the "Gold Standard" for clean text extraction (noise removal). It excels at finding the "meat" of an article while ignoring headers/footers.
     - **Crawl4AI** is a modern, open-source crawler specifically for RAG. It handles JavaScript (essential for LinkedIn/Indeed) and outputs "Fit Markdown."
-- **Strategy:** Instead of a "Universal Scraper" module, build a **`web2markdown`** utility module that uses `Crawl4AI`. Other modules (like Gmail) simply pass a URL to this utility.
+- **Strategy:** Instead of a "Universal Scraper" module, build a **`web2md`** utility module that uses `Crawl4AI`. Other modules (like Gmail) simply pass a URL to this utility.
 
 ### Q2: Orchestration Layer (Sandman vs. Others)
 **The Problem:** Building a custom UI/logic layer is time-consuming.
@@ -87,20 +87,20 @@ Following the Sandman Blueprint, the internal architecture is divided into:
 
 ### Q4: Organizing the Next Steps
 **The Strategy:** A Three-Tiered Module Architecture.
-1.  **Tier 1: Source Scrapers (e.g., `gmail2markdown`, `reddit2markdown`)**
+1.  **Tier 1: Source Scrapers (e.g., `gmail2md`, `reddit2md`)**
     - Responsibility: Identify URLs and high-level context.
-2.  **Tier 2: Entity Extractors (e.g., `job2markdown`)**
+2.  **Tier 2: Entity Extractors (e.g., `job2md`)**
     - Responsibility: Take a URL (from Gmail or Manual Input) and turn it into a "Job Note" using **JobSpy** or **Crawl4AI**.
-3.  **Tier 3: Utility Modules (e.g., `web2markdown`)**
+3.  **Tier 3: Utility Modules (e.g., `web2md`)**
     - Responsibility: General HTML -> Markdown conversion for any URL not handled by a specific Entity Extor.
 
 **Manual Input:** Support this via a simple **CLI command** or **Webhook**.
-Example: `python sandman.py --module job2markdown --url [LINK]`. 
+Example: `python sandman.py --module job2md --url [LINK]`. 
 This allows your Apple Shortcut to simply send an HTTP POST to your server, which then triggers the Job Scraper.
 
 ---
 
-## 5. Next Steps for Gmail2Markdown
+## 5. Next Steps for gmail2md
 1.  **Architecture:** Draft the `docs/architecture.md` using `imaplib` for the Client bucket (fastest path to MVP).
-2.  **Job Scraper:** Create a sibling directory `modules/job2markdown/` and initialize it with **JobSpy**.
-3.  **Integration:** Define the "Handoff Schema" where Gmail2Markdown writes a list of `extracted_links` that `job2markdown` picks up in the next cycle.
+2.  **Job Scraper:** Create a sibling directory `modules/job2md/` and initialize it with **JobSpy**.
+3.  **Integration:** Define the "Handoff Schema" where gmail2md writes a list of `extracted_links` that `job2md` picks up in the next cycle.
