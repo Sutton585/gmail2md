@@ -89,18 +89,18 @@ Following the Sandman Blueprint, the internal architecture is divided into:
 **The Strategy:** A Three-Tiered Module Architecture.
 1.  **Tier 1: Source Scrapers (e.g., `gmail2md`, `reddit2md`)**
     - Responsibility: Identify URLs and high-level context.
-2.  **Tier 2: Entity Extractors (e.g., `job2md`)**
+2.  **Tier 2: Entity Extractors (e.g., `jobs2md`)**
     - Responsibility: Take a URL (from Gmail or Manual Input) and turn it into a "Job Note" using **JobSpy** or **Crawl4AI**.
 3.  **Tier 3: Utility Modules (e.g., `web2md`)**
     - Responsibility: General HTML -> Markdown conversion for any URL not handled by a specific Entity Extor.
 
 **Manual Input:** Support this via a simple **CLI command** or **Webhook**.
-Example: `python sandman.py --module job2md --url [LINK]`. 
+Example: `python sandman.py --module jobs2md --url [LINK]`. 
 This allows your Apple Shortcut to simply send an HTTP POST to your server, which then triggers the Job Scraper.
 
 ---
 
 ## 5. Next Steps for gmail2md
 1.  **Architecture:** Draft the `docs/architecture.md` using `imaplib` for the Client bucket (fastest path to MVP).
-2.  **Job Scraper:** Create a sibling directory `modules/job2md/` and initialize it with **JobSpy**.
-3.  **Integration:** Define the "Handoff Schema" where gmail2md writes a list of `extracted_links` that `job2md` picks up in the next cycle.
+2.  **Job Scraper:** Create a sibling directory `modules/jobs2md/` and initialize it with **JobSpy**.
+3.  **Integration:** Define the "Handoff Schema" where gmail2md writes a list of `extracted_links` that `jobs2md` picks up in the next cycle.
